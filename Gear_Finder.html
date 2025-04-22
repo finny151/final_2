@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gear Finder</title>
+    <link rel="stylesheet" href="Final.css">
+
+</head>
+
+<body>
+    <nav class="top-nav">
+        <ul>
+            <li><a href="Homepage.html">Homepage</a></li>
+            <li><a href="Biking.html">Biking</a></li>
+            <li><a href="Skiing.html">Skiing</a></li>
+            <li><a href="Gear_Finder.html">Gear Finder</a></li>
+            <li><a href="Your_Recommendations.html">Your Recommendations</a></li>
+        </ul>
+    </nav>
+
+    <h1 class="gearfinder_header"> VT Gear Finder</h1>
+
+    <div class="container">
+        <div class="Item" style="text-align: center; margin: 5px">
+            <h3>Custom Ski Recommendation Form</h3>
+            <form id="skiForm" onsubmit="event.preventDefault(); skirec();">
+                <fieldset>
+                    <legend>Budget</legend>
+
+                    <select name="budget">
+                        <option value="low"> $0-$300</option>
+                        <option value="medium"> $300-$600</option>
+                        <option value="high"> $600-$1200</option>
+                    </select>
+                </fieldset>
+                <br>
+                <fieldset>
+                    <legend>Ski Category</legend>
+
+                    <select name="Ski Category">
+                        <option value="All mountain"> All Mountain</option>
+                        <option value="Touring"> Touring</option>
+                        <option value="Carving"> Carving</option>
+                    </select>
+                </fieldset>
+                <br>
+                <button type="submit">Submit Ski Form</button>
+            </form>
+            <br>
+            <div id="Skirec" class="review"></div>
+        </div>
+
+        <div class="Item" style="text-align: center; margin: 5px">
+            <p class="review">
+                Welcome to the <strong>Vermont Gear Finder!</strong><br><br>
+                Here you can find customized reccomendations based on your activity
+                of intrest, the category of that activity and your specific
+                budgeting conststraints. Your custom recommendations based
+                on the options you select will be saved on the "your recommendations" page,
+                <a href="Your_Recommendations.html">(linked here)</a>
+                so feel free to try out different combinations of budget and category.
+                <br><br> <strong>Enjoy!</strong>
+
+            </p>
+        </div>
+
+
+        <div class="Item" style="text-align: center; margin: 5px">
+            <h3>Custom Bike Recommendation Form</h3>
+            <form id="bikeForm" onsubmit="event.preventDefault(); bikerec();">
+                <fieldset>
+                    <legend>Budget</legend>
+
+                    <select name="budget">
+                        <option value="low"> $0-$1500</option>
+                        <option value="medium"> $1500-$3500</option>
+                        <option value="high"> $3500+</option>
+                    </select>
+                </fieldset>
+                <br>
+                <fieldset>
+                    <legend>Bike Category</legend>
+
+                    <select name="Bike Category">
+                        <option value="Trail"> Trail</option>
+                        <option value="Enduro"> Enduro</option>
+                        <option value="Gravel"> Gravel</option>
+                    </select>
+                </fieldset>
+                <br>
+                <button type="submit">Submit Bike Form</button>
+            </form>
+            <br>
+            <div id="bikerec" class="review"></div>
+        </div>
+    </div>
+
+
+    <!-- Javascript for my two forms, two functions that should spit out recomendations-->
+
+    <script>
+        function skirec() {
+            const form = document.getElementById("skiForm");
+            const budget = form.elements["budget"].value;
+            const category = form.elements["Ski Category"].value;
+
+            let recommendation = "";
+
+            if (budget === "low") {
+                if (category === "All mountain") {
+                    recommendation = "Try to find some used skis like the Volkl Blaze or Atomic Bent Chetler.";
+                } else if (category === "Touring") {
+                    recommendation = "Looking into some used Salomon QSTs or Salomon Lumens could be a good option.";
+                } else if (category === "Carving") {
+                    recommendation = "Check out the Head Shap V2 or the Nordica Steadfast 75.";
+                }
+            } else if (budget === "medium") {
+                if (category === "All mountain") {
+                    recommendation = "Some Fischer Rangers or a Dynastar M-cross should do the job!";
+                } else if (category === "Touring") {
+                    recommendation = "Check out what Line has to offer. The Sir Francis Bacon's are a fun touring ski.";
+                } else if (category === "Carving") {
+                    recommendation = "The Elan Wingman is a great underrated pick.";
+                }
+            } else if (budget === "high") {
+                if (category === "All mountain") {
+                    recommendation = "Stockli Stormriders are a top of the line favorite.";
+                } else if (category === "Touring") {
+                    recommendation = "Those with the cash to spend swear by any of the skis that DPS makes";
+                } else if (category === "Carving") {
+                    recommendation = "Get yourself a Black Crow Mirus Cor or a FIS slalom ski";
+                }
+            }
+
+            const skisave = `${category} ski for a ${budget} budget: ${recommendation}`;
+            // Using local storage to turn my strings into an array that I can then send 
+            //through a map function that turns the array back into a string and adds it to a list! 
+            // wow... That took forever.
+            let skiRecs = JSON.parse(localStorage.getItem("skiRecommendations")) || [];
+            skiRecs.push(skisave);
+            localStorage.setItem("skiRecommendations", JSON.stringify(skiRecs));
+
+            document.getElementById("Skirec").innerHTML = recommendation + `<br>
+        <p>Buy Locally at:</p>
+        <a href="https://www.skiessentials.com/" target="_blank">Ski Essentials, Stowe, VT</a>
+        <br><a href="https://shopstartingate.com/" target="_blank">The Startingate Ski and Sports, Stratton, VT</a>
+        <br><a href="https://www.alpineshopvt.com/" target="_blank">Alpine Shop, S. Burlington, VT</a>
+    `;
+        }
+
+        function bikerec() {
+            const form = document.getElementById("bikeForm");
+            const budget = form.elements["budget"].value;
+            const category = form.elements["Bike Category"].value;
+
+            let recommendation = "";
+
+            if (budget === "low") {
+                if (category === "Trail") {
+                    recommendation = "The Scott Scale or the Orbea Alma could be good hardtail options";
+                } else if (category === "Enduro") {
+                    recommendation = "Check out the used market or get yourself a GT Force, they are cheap now as the company is shutting down.";
+                } else if (category === "Gravel") {
+                    recommendation = "Take a look for the Marin Gestalt X10 700C.";
+                }
+            } else if (budget === "medium") {
+                if (category === "Trail") {
+                    recommendation = "Specialized stumpjumper! A tried and true classic that won’t let you down.";
+                } else if (category === "Enduro") {
+                    recommendation = "A Kona Process or a Cannondale Jekyll would be a sweet bike for this price range.";
+                } else if (category === "Gravel") {
+                    recommendation = "The Cannondale Topstone 4 is a great mid-range carbon cruiser.";
+                }
+            } else if (budget === "high") {
+                if (category === "Trail") {
+                    recommendation = "Trek Supercaliber, one of the fastest and lightest XC bikes on the market.";
+                } else if (category === "Enduro") {
+                    recommendation = "The Specialized 'Enduro' or a Yeti SB 165 are Enduro machines for a high pricetag.";
+                } else if (category === "Gravel") {
+                    recommendation = "If you are really looking to spend some money, check out some of the titanium frames from Otso Cycles.";
+                }
+            }
+
+            console.log("Bike form submitted!");
+
+            const bikesave = `${category} bike for a ${budget} budget: ${recommendation}`;
+
+            // Using local storage to turn my strings into an array that I can then send 
+            //through a map function that turns the array back into a string and adds it to a list! 
+            // wow... That took forever.
+            let bikeRecs = JSON.parse(localStorage.getItem("bikeRecommendations")) || [];
+            bikeRecs.push(bikesave);
+            localStorage.setItem("bikeRecommendations", JSON.stringify(bikeRecs));
+
+            document.getElementById("bikerec").innerHTML = recommendation + `<br>
+        <p>Buy Locally at:</p>
+        <a href="https://www.hitchhikerbikes.com/" target="_blank">Hitchhiker Bikes, Stowe, VT</a>
+        <br><a href="https://www.onionriver.com/" target="_blank">Onion River Outdoors, Montpelier, VT</a>
+        <br><a href="https://battenkillbicycles.com/" target="_blank">Battenkill Bicycles, Manchester Center, VT</a>
+    `;
+        }
+    </script>
+
+    <footer class="footer">
+        <p style="text-align: left;">
+        <h4> For Any other Gear Recommendations, Please reach out!</h4>
+        Finn Murphy<br>
+        Finn.Murphy@uvm.edu<br>
+        (802)-696-2141<br>
+        </p>
+    </footer>
+
+    <div style="display: flex; justify-content: center; align-items: center; height: 100px;">
+        <button onclick="window.location.href='Homepage.html'"
+            style="padding: 10px 20px; font-size: 16px; border-radius: 5px;">
+            Back to Homepage
+        </button>
+    </div>
+
+</body>
+
+</html>

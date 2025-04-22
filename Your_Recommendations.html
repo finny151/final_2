@@ -1,0 +1,71 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Saved Recommendations</title>
+    <link rel="stylesheet" href="Final.css">
+</head>
+
+<body style="background-image: url('Images/VT.jpg'); margin: 0;">
+    <nav class="top-nav">
+        <ul>
+            <li><a href="Homepage.html">Homepage</a></li>
+            <li><a href="Biking.html">Biking</a></li>
+            <li><a href="Skiing.html">Skiing</a></li>
+            <li><a href="Gear_Finder.html">Gear Finder</a></li>
+            <li><a href="Your_Recommendations.html">Your Recommendations</a></li>
+        </ul>
+    </nav>
+    <br> <br> <br>
+
+
+    <div class="Item">
+        <h2>Your Saved Recommendations</h2>
+        <p id="savedSkiRec"></p>
+        <p id="savedBikeRec"></p>
+    </div>
+
+    <div style="display: flex; justify-content: center; align-items: center; height: 100px;
+">
+        <button style="padding: 10px 20px; font-size: 16px; border-radius: 5px;"
+         onclick="clearRecs()">Clear All Recommendations </button>
+    </div>
+
+    <br> 
+
+    <div style="display: flex; justify-content: center; align-items: center; height: 100px;">
+        <button onclick="window.location.href='Gear_Finder.html'"
+            style="padding: 10px 20px; font-size: 16px; border-radius: 5px;">
+            Back to Gear Finder
+        </button>
+    </div>
+    
+
+
+    <script>
+        const skiRecs = JSON.parse(localStorage.getItem("skiRecommendations")) || [];
+        const bikeRecs = JSON.parse(localStorage.getItem("bikeRecommendations")) || [];
+
+        const skiDisplay = document.getElementById("savedSkiRec");
+        const bikeDisplay = document.getElementById("savedBikeRec");
+
+        if (skiRecs.length > 0) {
+            skiDisplay.innerHTML = "<h3>Ski Recommendations:</h3>" +
+                skiRecs.map(rec => `<li>${rec}</li>`).join("") +
+                "</ol>";
+        }
+
+        if (bikeRecs.length > 0) {
+            bikeDisplay.innerHTML = "<h3>Bike Recommendations:</h3>" +
+                bikeRecs.map(rec => `<li>${rec}</li>`).join("") +
+                "</ol>";
+        }
+
+        function clearRecs() {
+            localStorage.removeItem("skiRecommendations");
+            localStorage.removeItem("bikeRecommendations");
+            location.reload();
+        }
+    </script>
+
+</body>
+
+</html>
